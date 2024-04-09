@@ -1,66 +1,55 @@
 ﻿#pragma once
 
 /// <summary>
-/// Stack struct made as linked list
+/// Custom string struct
 /// </summary>
-struct Stack
+struct CustomString
 {
-private:
 
     // ----------------------------------------------------------------------------
 
     /// <summary>
-    /// Internal Node class, that contains value, and pointer to next node.
-    /// If m_nextNode is nullptr, there is no more nodes, and current one is the last one
+    /// Default constructor - initialize with capacity 0
     /// </summary>
-    struct Node
-    {
-        Node(int value);
-        int m_value;
-        Node* m_nextNode;
-    };
-
-    // ----------------------------------------------------------------------------
-
-public:
+    CustomString();
 
     // ----------------------------------------------------------------------------
 
     /// <summary>
-    /// Default constructor
+    /// Initialize class with specific capacity
     /// </summary>
-    Stack();
+    /// <param name="capacity"></param>
+    CustomString(int capacity);
 
     // ----------------------------------------------------------------------------
 
     /// <summary>
-    /// Check, whether stack is empty
+    /// Add char to internal string
     /// </summary>
-    /// <returns>True, if stack is empty, false otherwise</returns>
-    bool IsEmpty() const;
+    /// <param name="item">Char to add</param>
+    void Add(char item);
 
     // ----------------------------------------------------------------------------
 
     /// <summary>
-    /// Push value at the end of the stack
+    /// Print internal string to console
     /// </summary>
-    /// <param name="value">Value, pushed at the end of the stack</param>
-    void Push(int value);
+    void Print() const;
 
     // ----------------------------------------------------------------------------
 
     /// <summary>
-    /// Pop last element from the stack
+    /// Read line to internal string
     /// </summary>
-    /// <returns>Popped value</returns>
-    int Pop();
+    void ReadLine();
 
     // ----------------------------------------------------------------------------
 
     /// <summary>
-    /// Returns size of the stack
+    /// Add char to internal string
     /// </summary>
-    int Size() const;
+    /// <param name="item">Char to add</param>
+    void operator +=(char item);
 
     // ----------------------------------------------------------------------------
 
@@ -68,7 +57,9 @@ private:
 
     // ----------------------------------------------------------------------------
 
-    Node* m_lastNode;
+    char* m_internalString;
+    int m_size;
+    int m_capacity;
 
     // ----------------------------------------------------------------------------
 };

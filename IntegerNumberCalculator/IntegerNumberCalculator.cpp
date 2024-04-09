@@ -1,18 +1,23 @@
-#include "iostream"
+#include <string>
 
-#include "Stack.h"
+#include "CustomString.h"
+#include "iostream"
 
 int main()
 {
-    Stack stack;
-    stack.Push(3);
-    stack.Push(9);
-    stack.Push(15);
-    stack.Push(43);
-    std::cout << "Size: " << stack.Size() << "\n";
-    while(!stack.IsEmpty())
+
+    int value;
+    std::cin >> value;
+    CustomString* string = new CustomString[value];
+    for(int i = 0; i < value; ++i)
     {
-        std::cout << stack.Pop() << "\n";
+        string[i].ReadLine();
     }
+
+    for(int i = 0; i < value; ++i)
+    {
+        string[i].Print();
+    }
+
     return 0;
 }

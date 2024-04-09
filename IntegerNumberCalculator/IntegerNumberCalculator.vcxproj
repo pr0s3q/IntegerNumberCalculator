@@ -159,9 +159,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="IntegerNumberCalculator.cpp" />
+    <ClCompile Include="src\CustomString.cpp" />
     <ClCompile Include="src\Stack.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\CustomString.h" />
     <ClInclude Include="include\Stack.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
