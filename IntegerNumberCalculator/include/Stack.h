@@ -3,10 +3,10 @@
 /// <summary>
 /// Stack struct made as linked list
 /// </summary>
+template <typename T>
 struct Stack
 {
 private:
-
     // ----------------------------------------------------------------------------
 
     /// <summary>
@@ -15,21 +15,25 @@ private:
     /// </summary>
     struct Node
     {
-        Node(int value);
-        int m_value;
+        Node(T value) : m_value(value), m_nextNode(nullptr)
+        {
+        }
+
+        T m_value;
         Node* m_nextNode;
     };
 
     // ----------------------------------------------------------------------------
 
 public:
-
     // ----------------------------------------------------------------------------
 
     /// <summary>
     /// Default constructor
     /// </summary>
-    Stack();
+    Stack() : m_lastNode(nullptr)
+    {
+    }
 
     // ----------------------------------------------------------------------------
 
@@ -37,7 +41,10 @@ public:
     /// Check, whether stack is empty
     /// </summary>
     /// <returns>True, if stack is empty, false otherwise</returns>
-    bool IsEmpty() const;
+    bool IsEmpty() const
+    {
+        return !m_lastNode;
+    }
 
     // ----------------------------------------------------------------------------
 
@@ -45,7 +52,22 @@ public:
     /// Push value at the end of the stack
     /// </summary>
     /// <param name="value">Value, pushed at the end of the stack</param>
-    void Push(int value);
+    void Push(T value)
+    {
+        Node* previousLastNode = m_lastNode;
+        m_lastNode = new Node(value);
+        if (previousLastNode)
+        {
+            m_lastNode->m_nextNode = previousLastNode;
+        }
+    }
+
+    // ----------------------------------------------------------------------------
+
+    T Peek()
+    {
+        return m_lastNode->m_value;
+    }
 
     // ----------------------------------------------------------------------------
 
@@ -53,19 +75,48 @@ public:
     /// Pop last element from the stack
     /// </summary>
     /// <returns>Popped value</returns>
-    int Pop();
+    T Pop()
+    {
+        const Node* previousLastNode = m_lastNode;
+        m_lastNode = previousLastNode->m_nextNode;
+        const T value = previousLastNode->m_value;
+        delete previousLastNode;
+        return value;
+    }
+
+    // ----------------------------------------------------------------------------
+
+    void Print() const
+    {
+        const Node* node = m_lastNode;
+        while (node)
+        {
+            std::cout << node->m_value << " ";
+            node = node->m_nextNode;
+        }
+        std::cout << "\n";
+    }
 
     // ----------------------------------------------------------------------------
 
     /// <summary>
     /// Returns size of the stack
     /// </summary>
-    int Size() const;
+    int Size() const
+    {
+        int size = 0;
+        const Node* node = m_lastNode;
+        while (node)
+        {
+            ++size;
+            node = node->m_nextNode;
+        }
+        return size;
+    }
 
     // ----------------------------------------------------------------------------
 
 private:
-
     // ----------------------------------------------------------------------------
 
     Node* m_lastNode;

@@ -5,7 +5,6 @@
 /// </summary>
 struct CustomString
 {
-
     // ----------------------------------------------------------------------------
 
     /// <summary>
@@ -31,6 +30,18 @@ struct CustomString
 
     // ----------------------------------------------------------------------------
 
+    void Add(int item);
+
+    // ----------------------------------------------------------------------------
+
+    bool Equals(const char* charArr, const int& len) const;
+
+    // ----------------------------------------------------------------------------
+
+    bool IsEmpty() const;
+
+    // ----------------------------------------------------------------------------
+
     /// <summary>
     /// Print internal string to console
     /// </summary>
@@ -38,23 +49,15 @@ struct CustomString
 
     // ----------------------------------------------------------------------------
 
-    /// <summary>
-    /// Read line to internal string
-    /// </summary>
-    void ReadLine();
+    static void PrintNewLine();
 
     // ----------------------------------------------------------------------------
 
-    /// <summary>
-    /// Add char to internal string
-    /// </summary>
-    /// <param name="item">Char to add</param>
-    void operator +=(char item);
+    int ToInt() const;
 
     // ----------------------------------------------------------------------------
 
 private:
-
     // ----------------------------------------------------------------------------
 
     char* m_internalString;
