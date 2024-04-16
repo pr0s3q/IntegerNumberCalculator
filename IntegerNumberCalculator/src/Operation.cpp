@@ -52,15 +52,16 @@ void Operation::IncrementArgCount()
 
 // ----------------------------------------------------------------------------
 
-void Operation::Print() const
+void Operation::AddToStr(CustomString& str) const
 {
-    PrintType();
-    std::cout << m_argCount << " ";
+    AddType(str);
+    str.AddIntAsCharArr(m_argCount);
+    str.Add(' ');
 }
 
 // ----------------------------------------------------------------------------
 
-void Operation::PrintType() const
+void Operation::AddType(CustomString& str) const
 {
     switch (m_type)
     {
@@ -70,10 +71,10 @@ void Operation::PrintType() const
     case NA:
         break;
     case MIN:
-        std::cout << "MIN";
+        str.Add("MIN", 3);
         break;
     case MAX:
-        std::cout << "MAX";
+        str.Add("MAX", 3);
         break;
     }
 }

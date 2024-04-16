@@ -1,5 +1,7 @@
 ﻿#pragma once
 
+struct CustomString;
+
 /// <summary>
 /// Stack struct made as linked list
 /// </summary>
@@ -33,6 +35,21 @@ public:
     /// </summary>
     Stack() : m_lastNode(nullptr)
     {
+    }
+
+    // ----------------------------------------------------------------------------
+
+    void AddToStr(CustomString& str)
+    {
+        const Node* node = m_lastNode;
+        while (node)
+        {
+            str.AddIntAsCharArr(node->m_value);
+            str.Add(' ');
+            node = node->m_nextNode;
+        }
+
+        str.Add(10);
     }
 
     // ----------------------------------------------------------------------------

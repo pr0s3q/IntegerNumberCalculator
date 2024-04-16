@@ -26,17 +26,17 @@ CustomString* Read()
 
 // ----------------------------------------------------------------------------
 
-void PrintOperation(const Stack<int>& stack, const Operation* op)
+void AddOperationToStr(CustomString& str, Stack<int>& stack, const Operation* op)
 {
-    op->Print();
-    stack.Print();
+    op->AddToStr(str);
+    stack.AddToStr(str);
 }
 
 // ----------------------------------------------------------------------------
 
-void PrintFormulaResult(const int result)
+void AddFormulaResult(CustomString& str, const int result)
 {
-    std::cout << result;
+    str.AddIntAsCharArr(result);
 }
 
 // ----------------------------------------------------------------------------
@@ -82,6 +82,7 @@ void ReadLineLoop()
     Stack<int> stack;
     Stack<Operation*> operationStack;
     CustomString* str;
+    CustomString operationOutput(100);
     while ((str = Read()) != nullptr)
     {
         if (!str->IsEmpty())
@@ -99,7 +100,7 @@ void ReadLineLoop()
             case Operation::CB:
                 {
                     const Operation* op = operationStack.Pop();
-                    PrintOperation(stack, op);
+                    AddOperationToStr(operationOutput, stack, op);
                     int opResult = 0;
                     switch (op->GetType())
                     {
@@ -116,7 +117,7 @@ void ReadLineLoop()
                         break;
                     }
                     if (operationStack.IsEmpty())
-                        PrintFormulaResult(opResult);
+                        AddFormulaResult(operationOutput, opResult);
                     else
                     {
                         stack.Push(opResult);
@@ -131,19 +132,12 @@ void ReadLineLoop()
                 operationStack.Peek()->IncrementArgCount();
                 break;
             }
-
-            //str->Print();
         }
 
         delete str;
     }
 
-    std::cout << "\n";
-
-    while (!stack.IsEmpty())
-        std::cout << stack.Pop() << " ";
-
-    std::cout << "\n";
+    operationOutput.Print();
 }
 
 // ----------------------------------------------------------------------------
