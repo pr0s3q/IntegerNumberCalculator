@@ -1,7 +1,7 @@
+#include <iostream>
 #include <string>
 
 #include "CustomString.h"
-#include "iostream"
 #include "Operation.h"
 #include "Stack.h"
 
@@ -9,7 +9,7 @@
 
 CustomString* Read()
 {
-    auto str = new CustomString;
+    const auto str = new CustomString;
     int character;
     while ((character = getchar()) != ' ')
     {

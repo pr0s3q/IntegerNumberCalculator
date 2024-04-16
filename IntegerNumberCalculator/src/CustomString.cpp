@@ -29,15 +29,18 @@ void CustomString::Add(const char item)
             newSize = 2; // Initialize with size 2 - since 1 * 1.5 will give 1
         else
             newSize = static_cast<int>(m_capacity * 1.5);
-        auto temp = new char[newSize + 1]{0}; // Dynamically allocate based on newSize (add + 1 for EOL character)
+
+        const auto temp = new char[newSize + 1]{0}; // Dynamically allocate based on newSize (add + 1 for EOL character)
         for (int i = 0; i < m_size; ++i)
         {
             temp[i] = m_internalString[i]; // Copy values from old string to new one
         }
+
         delete[] m_internalString; // Delete old string
         m_internalString = temp; // Assign new string
         m_capacity = newSize;
     }
+
     m_internalString[m_size] = item;
     ++m_size;
 }

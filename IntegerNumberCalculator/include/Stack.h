@@ -94,6 +94,7 @@ public:
             std::cout << node->m_value << " ";
             node = node->m_nextNode;
         }
+
         std::cout << "\n";
     }
 
@@ -111,6 +112,7 @@ public:
             ++size;
             node = node->m_nextNode;
         }
+
         return size;
     }
 
