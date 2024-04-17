@@ -1,7 +1,5 @@
 ﻿#include "Operation.h"
 
-#include <iostream>
-
 #include "CustomString.h"
 
 // ----------------------------------------------------------------------------
@@ -26,6 +24,14 @@ Operation::Type Operation::DetermineType(const CustomString* str)
         return MIN;
     if (str->Equals("MAX", 3))
         return MAX;
+    if(str->Equals("+", 1))
+        return ADD;
+    if(str->Equals("-", 1))
+        return SUB;
+    if(str->Equals("*", 1))
+        return MUL;
+    if(str->Equals("/", 1))
+        return DIV;
     if (str->Equals("(", 1))
         return OB;
     if (str->Equals(")", 1))
@@ -76,7 +82,8 @@ void Operation::RemoveBracket()
 void Operation::AddToStr(CustomString& str) const
 {
     AddType(str);
-    str.AddIntAsCharArr(m_argCount);
+    if(m_type != ADD && m_type != SUB && m_type != MUL && m_type != SUB)
+        str.AddIntAsCharArr(m_argCount);
     str.Add(' ');
 }
 
@@ -96,6 +103,18 @@ void Operation::AddType(CustomString& str) const
         break;
     case MAX:
         str.Add("MAX", 3);
+        break;
+    case ADD:
+        str.Add("+", 1);
+        break;
+    case SUB:
+        str.Add("-", 1);
+        break;
+    case MUL:
+        str.Add("*", 1);
+        break;
+    case DIV:
+        str.Add("/", 1);
         break;
     }
 }
