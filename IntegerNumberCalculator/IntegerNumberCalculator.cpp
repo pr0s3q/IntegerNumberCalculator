@@ -11,13 +11,6 @@ CustomString debugString;
 
 // ----------------------------------------------------------------------------
 
-void DisplayError(const char* msg)
-{
-    std::cout << msg << "\n";
-}
-
-// ----------------------------------------------------------------------------
-
 /// <summary>
 /// Read data from console
 /// </summary>
@@ -226,7 +219,6 @@ void HandleMathOperations(
         handleResult(stack, operationStack, operationOutput, opResult);
         break;
     default:
-        DisplayError("Wrong operation type in HandleMathOperations");
         break;
     }
 }
@@ -263,20 +255,21 @@ void ReadLineLoop()
             case Operation::OB:
                 {
                     if (operationStack.IsEmpty())
-                        continue;
+                        break;
 
                     operationStack.Peek()->AddBracket();
+                    break;
                 }
             case Operation::NA:
                 continue;
             case Operation::CB:
                 {
                     if (operationStack.IsEmpty())
-                        continue;
+                        break;
 
                     operationStack.Peek()->RemoveBracket();
                     if (operationStack.Peek()->GetNumberOfBrackets() != 0)
-                        continue;
+                        break;
 
                     const Operation* op = operationStack.Pop();
                     AddOperationToStr(operationOutput, stack, op);
