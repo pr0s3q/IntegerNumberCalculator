@@ -18,7 +18,7 @@ struct CustomString
     /// Initialize class with specific capacity
     /// </summary>
     /// <param name="capacity"></param>
-    CustomString(int capacity);
+    explicit CustomString(int capacity);
 
     // ----------------------------------------------------------------------------
 

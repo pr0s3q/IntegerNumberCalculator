@@ -17,7 +17,7 @@ private:
     /// </summary>
     struct Node
     {
-        Node(T value) : m_value(value), m_nextNode(nullptr)
+        explicit Node(T value) : m_value(value), m_nextNode(nullptr)
         {
         }
 

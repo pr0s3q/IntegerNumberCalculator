@@ -26,7 +26,7 @@ CustomString* Read()
 
 // ----------------------------------------------------------------------------
 
-void AddOperationToStr(CustomString& str, Stack<int>& stack, const Operation* op, bool addStack = true)
+void AddOperationToStr(CustomString& str, Stack<int>& stack, const Operation* op, const bool addStack = true)
 {
     op->AddToStr(str);
     if(addStack)
@@ -94,13 +94,29 @@ void ReadLineLoop()
             {
             case Operation::MIN:
             case Operation::MAX:
-                operationStack.Push(new Operation(type));
-                break;
+                {
+                    operationStack.Push(new Operation(type));
+                    break;
+                }
             case Operation::OB:
+                {
+                    if(operationStack.IsEmpty())
+                        continue;
+
+                    operationStack.Peek()->AddBracket();
+                    continue;
+                }
             case Operation::NA:
                 continue;
             case Operation::CB:
                 {
+                    if(operationStack.IsEmpty())
+                        continue;
+
+                    operationStack.Peek()->RemoveBracket();
+                    if(operationStack.Peek()->GetNumberOfBrackets() != 0)
+                        continue;
+
                     const Operation* op = operationStack.Pop();
                     AddOperationToStr(operationOutput, stack, op);
                     AddOperationToStr(postfixNotation, stack, op, false);
@@ -132,12 +148,14 @@ void ReadLineLoop()
                     break;
                 }
             case Operation::NAO:
-                const int number = str->ToInt();
-                stack.Push(number);
-                operationStack.Peek()->IncrementArgCount();
-                postfixNotation.AddIntAsCharArr(number);
-                postfixNotation.Add(' ');
-                break;
+                {
+                    const int number = str->ToInt();
+                    stack.Push(number);
+                    operationStack.Peek()->IncrementArgCount();
+                    postfixNotation.AddIntAsCharArr(number);
+                    postfixNotation.Add(' ');
+                    break;
+                }
             }
         }
 

@@ -7,8 +7,15 @@
 // ----------------------------------------------------------------------------
 
 Operation::Operation(const Type type)
-    : m_type(type), m_argCount(0)
+    : m_type(type), m_argCount(0), m_numberOfBrackets(0)
 {
+}
+
+// ----------------------------------------------------------------------------
+
+void Operation::AddBracket()
+{
+    ++m_numberOfBrackets;
 }
 
 // ----------------------------------------------------------------------------
@@ -38,6 +45,13 @@ int Operation::GetArgCount() const
 
 // ----------------------------------------------------------------------------
 
+int Operation::GetNumberOfBrackets() const
+{
+    return m_numberOfBrackets;
+}
+
+// ----------------------------------------------------------------------------
+
 Operation::Type Operation::GetType() const
 {
     return m_type;
@@ -48,6 +62,13 @@ Operation::Type Operation::GetType() const
 void Operation::IncrementArgCount()
 {
     ++m_argCount;
+}
+
+// ----------------------------------------------------------------------------
+
+void Operation::RemoveBracket()
+{
+    --m_numberOfBrackets;
 }
 
 // ----------------------------------------------------------------------------
