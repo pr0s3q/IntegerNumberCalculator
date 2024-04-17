@@ -7,6 +7,10 @@
 
 // ----------------------------------------------------------------------------
 
+/// <summary>
+/// Read data from console
+/// </summary>
+/// <returns></returns>
 CustomString* Read()
 {
     const auto str = new CustomString;
@@ -26,6 +30,13 @@ CustomString* Read()
 
 // ----------------------------------------------------------------------------
 
+/// <summary>
+/// Add operation to CustomString
+/// </summary>
+/// <param name="str"></param>
+/// <param name="stack"></param>
+/// <param name="op"></param>
+/// <param name="addStack">Determine, whether data from stack should be added to CustomString as well</param>
 void AddOperationToStr(CustomString& str, Stack<int>& stack, const Operation* op, const bool addStack = true)
 {
     op->AddToStr(str);
@@ -35,13 +46,12 @@ void AddOperationToStr(CustomString& str, Stack<int>& stack, const Operation* op
 
 // ----------------------------------------------------------------------------
 
-void AddFormulaResult(CustomString& str, const int result)
-{
-    str.AddIntAsCharArr(result);
-}
-
-// ----------------------------------------------------------------------------
-
+/// <summary>
+/// MIN operation
+/// </summary>
+/// <param name="stack">Data</param>
+/// <param name="argCount">Number of operation arguments</param>
+/// <returns>Minimal value of given arguments</returns>
 int Min(Stack<int>& stack, int argCount)
 {
     --argCount;
@@ -60,6 +70,12 @@ int Min(Stack<int>& stack, int argCount)
 
 // ----------------------------------------------------------------------------
 
+/// <summary>
+/// MAX operation
+/// </summary>
+/// <param name="stack"></param>
+/// <param name="argCount">Number of operation arguments</param>
+/// <returns>Maximal value of given arguments</returns>
 int Max(Stack<int>& stack, int argCount)
 {
     --argCount;
@@ -78,6 +94,9 @@ int Max(Stack<int>& stack, int argCount)
 
 // ----------------------------------------------------------------------------
 
+/// <summary>
+/// Main loop, reading data from console, converting, and processing data from input
+/// </summary>
 void ReadLineLoop()
 {
     Stack<int> stack;
@@ -137,7 +156,7 @@ void ReadLineLoop()
                     }
 
                     if (operationStack.IsEmpty())
-                        AddFormulaResult(operationOutput, opResult);
+                        operationOutput.AddIntAsCharArr(opResult);
                     else
                     {
                         stack.Push(opResult);

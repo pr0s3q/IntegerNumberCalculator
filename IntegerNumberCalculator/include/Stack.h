@@ -39,6 +39,9 @@ public:
 
     // ----------------------------------------------------------------------------
 
+    /// <summary>
+    /// Add stack data to CustomString
+    /// </summary>
     void AddToStr(CustomString& str)
     {
         const Node* node = m_lastNode;
@@ -81,6 +84,9 @@ public:
 
     // ----------------------------------------------------------------------------
 
+    /// <summary>
+    /// Peek element on top of the stack
+    /// </summary>
     T Peek()
     {
         return m_lastNode->m_value;
@@ -99,20 +105,6 @@ public:
         const T value = previousLastNode->m_value;
         delete previousLastNode;
         return value;
-    }
-
-    // ----------------------------------------------------------------------------
-
-    void Print() const
-    {
-        const Node* node = m_lastNode;
-        while (node)
-        {
-            std::cout << node->m_value << " ";
-            node = node->m_nextNode;
-        }
-
-        std::cout << "\n";
     }
 
     // ----------------------------------------------------------------------------
@@ -136,6 +128,7 @@ public:
     // ----------------------------------------------------------------------------
 
 private:
+
     // ----------------------------------------------------------------------------
 
     Node* m_lastNode;
