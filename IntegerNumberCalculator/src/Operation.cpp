@@ -24,13 +24,13 @@ Operation::Type Operation::DetermineType(const CustomString* str)
         return MIN;
     if (str->Equals("MAX", 3))
         return MAX;
-    if(str->Equals("+", 1))
+    if (str->Equals("+", 1))
         return ADD;
-    if(str->Equals("-", 1))
+    if (str->Equals("-", 1))
         return SUB;
-    if(str->Equals("*", 1))
+    if (str->Equals("*", 1))
         return MUL;
-    if(str->Equals("/", 1))
+    if (str->Equals("/", 1))
         return DIV;
     if (str->Equals("(", 1))
         return OB;
@@ -82,7 +82,7 @@ void Operation::RemoveBracket()
 void Operation::AddToStr(CustomString& str) const
 {
     AddType(str);
-    if(m_type != ADD && m_type != SUB && m_type != MUL && m_type != SUB)
+    if (m_type != ADD && m_type != SUB && m_type != MUL && m_type != SUB)
         str.AddIntAsCharArr(m_argCount);
     str.Add(' ');
 }

@@ -39,7 +39,6 @@ CustomString* Read()
 #ifdef _DEBUG
         debugString.Add(character);
 #endif
-
     }
 
     return str;
@@ -267,7 +266,6 @@ void ReadLineLoop()
                         continue;
 
                     operationStack.Peek()->AddBracket();
-                    continue;
                 }
             case Operation::NA:
                 continue;

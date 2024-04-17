@@ -18,10 +18,14 @@ struct Operation
         NAO,
         MIN,
         MAX,
-        ADD, // +
-        SUB, // -
-        MUL, // *
-        DIV, // /
+        // +
+        ADD,
+        // -
+        SUB,
+        // *
+        MUL,
+        // /
+        DIV,
         // Opening bracket -> (
         OB,
         // Closing bracket -> )

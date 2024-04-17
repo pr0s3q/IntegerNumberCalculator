@@ -49,7 +49,7 @@ void CustomString::Add(const char item)
 
 void CustomString::Add(const char* item, const int itemSize)
 {
-    for(int i = 0; i < itemSize; ++i)
+    for (int i = 0; i < itemSize; ++i)
         Add(item[i]);
 }
 
@@ -67,7 +67,7 @@ void CustomString::AddIntAsCharArr(const int number)
 {
     char resultChar[10];
     const int noOfChars = sprintf_s(resultChar, sizeof(resultChar), "%d", number);
-    for(int i = 0; i < noOfChars; ++i)
+    for (int i = 0; i < noOfChars; ++i)
         Add(resultChar[i]);
 }
 
