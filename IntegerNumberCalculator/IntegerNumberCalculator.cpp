@@ -26,10 +26,11 @@ CustomString* Read()
 
 // ----------------------------------------------------------------------------
 
-void AddOperationToStr(CustomString& str, Stack<int>& stack, const Operation* op)
+void AddOperationToStr(CustomString& str, Stack<int>& stack, const Operation* op, bool addStack = true)
 {
     op->AddToStr(str);
-    stack.AddToStr(str);
+    if(addStack)
+        stack.AddToStr(str);
 }
 
 // ----------------------------------------------------------------------------
@@ -82,6 +83,7 @@ void ReadLineLoop()
     Stack<int> stack;
     Stack<Operation*> operationStack;
     CustomString* str;
+    CustomString postfixNotation(100);
     CustomString operationOutput(100);
     while ((str = Read()) != nullptr)
     {
@@ -101,6 +103,7 @@ void ReadLineLoop()
                 {
                     const Operation* op = operationStack.Pop();
                     AddOperationToStr(operationOutput, stack, op);
+                    AddOperationToStr(postfixNotation, stack, op, false);
                     int opResult = 0;
                     switch (op->GetType())
                     {
@@ -116,6 +119,7 @@ void ReadLineLoop()
                         opResult = Max(stack, op->GetArgCount());
                         break;
                     }
+
                     if (operationStack.IsEmpty())
                         AddFormulaResult(operationOutput, opResult);
                     else
@@ -123,6 +127,7 @@ void ReadLineLoop()
                         stack.Push(opResult);
                         operationStack.Peek()->IncrementArgCount();
                     }
+
                     delete op;
                     break;
                 }
@@ -130,6 +135,8 @@ void ReadLineLoop()
                 const int number = str->ToInt();
                 stack.Push(number);
                 operationStack.Peek()->IncrementArgCount();
+                postfixNotation.AddIntAsCharArr(number);
+                postfixNotation.Add(' ');
                 break;
             }
         }
@@ -137,6 +144,8 @@ void ReadLineLoop()
         delete str;
     }
 
+    postfixNotation.Print();
+    CustomString::PrintNewLine();
     operationOutput.Print();
 }
 
