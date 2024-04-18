@@ -151,7 +151,7 @@ int Divide(Stack<int>& stack)
 /// <param name="operationStack"></param>
 /// <param name="postfixNotation"></param>
 /// <param name="operationOutput"></param>
-void PopOpAndAddToStr(
+const Operation* PopOpAndAddToStr(
     Stack<int>& stack,
     Stack<Operation*>& operationStack,
     CustomString& postfixNotation,
@@ -160,7 +160,7 @@ void PopOpAndAddToStr(
     const Operation* op = operationStack.Pop();
     AddOperationToStr(operationOutput, stack, op);
     AddOperationToStr(postfixNotation, stack, op, false);
-    delete op;
+    return op;
 }
 
 // ----------------------------------------------------------------------------
@@ -179,10 +179,7 @@ void HandleMathOperations(
     CustomString& operationOutput)
 {
     /// Helper local lambda function to either, add operation result to operationOutput or to the stack
-    auto handleResult = [](
-        Stack<int>& stack,
-        const Stack<Operation*>& operationStack,
-        CustomString& operationOutput, const int opResult)
+    auto handleResult = [&stack, &operationStack, &operationOutput](const int opResult)
     {
         if (operationStack.IsEmpty())
             operationOutput.AddIntAsCharArr(opResult);
@@ -193,32 +190,37 @@ void HandleMathOperations(
         }
     };
 
+    auto handleOperation = [&stack, &operationStack, &postfixNotation, &operationOutput, &handleResult]
+    (int(*func)(Stack<int>&))
+    {
+        const auto op = PopOpAndAddToStr(stack, operationStack, postfixNotation, operationOutput);
+        delete op;
+        const int opResult = func(stack);
+        handleResult(opResult);
+    };
+
     operationStack.Peek()->IncrementArgCount();
     const Operation::Type opType = operationStack.Peek()->GetType();
-    int opResult;
     switch (opType)
     {
     case Operation::ADD:
-        PopOpAndAddToStr(stack, operationStack, postfixNotation, operationOutput);
-        opResult = Add(stack);
-        handleResult(stack, operationStack, operationOutput, opResult);
+        handleOperation(&Add);
         break;
     case Operation::SUB:
-        PopOpAndAddToStr(stack, operationStack, postfixNotation, operationOutput);
-        opResult = Subtract(stack);
-        handleResult(stack, operationStack, operationOutput, opResult);
+        handleOperation(&Subtract);
         break;
     case Operation::MUL:
-        PopOpAndAddToStr(stack, operationStack, postfixNotation, operationOutput);
-        opResult = Multiply(stack);
-        handleResult(stack, operationStack, operationOutput, opResult);
+        handleOperation(&Multiply);
         break;
     case Operation::DIV:
-        PopOpAndAddToStr(stack, operationStack, postfixNotation, operationOutput);
-        opResult = Divide(stack);
-        handleResult(stack, operationStack, operationOutput, opResult);
+        handleOperation(&Divide);
         break;
-    default:
+    case Operation::NAO:
+    case Operation::MIN:
+    case Operation::MAX:
+    case Operation::OB:
+    case Operation::CB:
+    case Operation::NA:
         break;
     }
 }
@@ -271,9 +273,7 @@ void ReadLineLoop()
                     if (operationStack.Peek()->GetNumberOfBrackets() != 0)
                         break;
 
-                    const Operation* op = operationStack.Pop();
-                    AddOperationToStr(operationOutput, stack, op);
-                    AddOperationToStr(postfixNotation, stack, op, false);
+                    const Operation* op = PopOpAndAddToStr(stack, operationStack, postfixNotation, operationOutput);
                     int opResult = 0;
                     switch (op->GetType())
                     {
@@ -288,7 +288,10 @@ void ReadLineLoop()
                     case Operation::MAX:
                         opResult = Max(stack, op->GetArgCount());
                         break;
-                    default:
+                    case Operation::ADD:
+                    case Operation::SUB:
+                    case Operation::MUL:
+                    case Operation::DIV:
                         HandleMathOperations(stack, operationStack, postfixNotation, operationOutput);
                         break;
                     }
