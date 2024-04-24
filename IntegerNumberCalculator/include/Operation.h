@@ -26,6 +26,8 @@ struct Operation
         MUL,
         // /
         DIV,
+        // Unary negation
+        N,
         // Opening bracket -> (
         OB,
         // Closing bracket -> )

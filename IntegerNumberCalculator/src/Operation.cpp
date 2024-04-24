@@ -30,6 +30,8 @@ Operation::Type Operation::DetermineType(const CustomString* str)
         return SUB;
     if (str->Equals("*", 1))
         return MUL;
+    if (str->Equals("N", 1))
+        return N;
     if (str->Equals("/", 1))
         return DIV;
     if (str->Equals("(", 1))
@@ -82,7 +84,7 @@ void Operation::RemoveBracket()
 void Operation::AddToStr(CustomString& str) const
 {
     AddType(str);
-    if (m_type != ADD && m_type != SUB && m_type != MUL && m_type != SUB)
+    if (m_type == MIN || m_type == MAX)
         str.AddIntAsCharArr(m_argCount);
     str.Add(' ');
 }
@@ -115,6 +117,9 @@ void Operation::AddType(CustomString& str) const
         break;
     case DIV:
         str.Add("/", 1);
+        break;
+    case N:
+        str.Add("N", 1);
         break;
     }
 }
