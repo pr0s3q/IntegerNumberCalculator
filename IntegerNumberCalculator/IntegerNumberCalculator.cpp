@@ -251,6 +251,58 @@ void HandleNegation(
 
 // ----------------------------------------------------------------------------
 
+void HandleOperationStack(
+    Stack<int>& stack,
+    Stack<Operation*>& operationStack,
+    CustomString& postfixNotation,
+    CustomString& operationOutput)
+{
+    int opResult = 0;
+    int bracketLevel = operationStack.Peek()->GetBracketLevel();
+
+    switch (operationStack.Peek()->GetType())
+    {
+    case Operation::NAO:
+    case Operation::OB:
+    case Operation::CB:
+    case Operation::NA:
+        break;
+    case Operation::MIN:
+        {
+            const Operation* op = PopOpAndAddToStr(stack, operationStack, postfixNotation, operationOutput);
+            opResult = Min(stack, op->GetArgCount());
+            delete op;
+            break;
+        }
+    case Operation::MAX:
+        {
+            const Operation* op = PopOpAndAddToStr(stack, operationStack, postfixNotation, operationOutput);
+            opResult = Max(stack, op->GetArgCount());
+            delete op;
+            break;
+        }
+    case Operation::ADD:
+    case Operation::SUB:
+    case Operation::MUL:
+    case Operation::DIV:
+        HandleMathOperations(stack, operationStack, postfixNotation, operationOutput);
+        break;
+    case Operation::N:
+        HandleNegation(stack, operationStack, postfixNotation, operationOutput);
+        break;
+    }
+
+    if (operationStack.IsEmpty())
+        operationOutput.AddIntAsCharArr(opResult);
+    else
+    {
+        stack.Push(opResult);
+        operationStack.Peek()->IncrementArgCount();
+    }
+}
+
+// ----------------------------------------------------------------------------
+
 /// <summary>
 /// Main loop, reading data from console, converting, and processing data from input
 /// </summary>
@@ -261,6 +313,7 @@ void ReadLineLoop()
     CustomString* str;
     CustomString postfixNotation(100);
     CustomString operationOutput(100);
+    int bracketLevel = 0;
     while ((str = Read()) != nullptr)
     {
         if (!str->IsEmpty())
@@ -276,11 +329,12 @@ void ReadLineLoop()
             case Operation::DIV:
             case Operation::N:
                 {
-                    operationStack.Push(new Operation(type));
+                    operationStack.Push(new Operation(type, bracketLevel));
                     break;
                 }
             case Operation::OB:
                 {
+                    ++bracketLevel;
                     if (operationStack.IsEmpty())
                         break;
 
@@ -291,6 +345,7 @@ void ReadLineLoop()
                 continue;
             case Operation::CB:
                 {
+                    --bracketLevel;
                     if (operationStack.IsEmpty())
                         break;
 
@@ -298,47 +353,7 @@ void ReadLineLoop()
                     if (operationStack.Peek()->GetNumberOfBrackets() != 0)
                         break;
 
-
-                    int opResult = 0;
-                    switch (operationStack.Peek()->GetType())
-                    {
-                    case Operation::NAO:
-                    case Operation::OB:
-                    case Operation::CB:
-                    case Operation::NA:
-                        break;
-                    case Operation::MIN:
-                        {
-                            const Operation* op = PopOpAndAddToStr(stack, operationStack, postfixNotation, operationOutput);
-                            opResult = Min(stack, op->GetArgCount());
-                            delete op;
-                            break;
-                        }
-                    case Operation::MAX:
-                        {
-                            const Operation* op = PopOpAndAddToStr(stack, operationStack, postfixNotation, operationOutput);
-                            opResult = Max(stack, op->GetArgCount());
-                            delete op;
-                            break;
-                        }
-                    case Operation::ADD:
-                    case Operation::SUB:
-                    case Operation::MUL:
-                    case Operation::DIV:
-                        HandleMathOperations(stack, operationStack, postfixNotation, operationOutput);
-                        break;
-                    case Operation::N:
-                        HandleNegation(stack, operationStack, postfixNotation, operationOutput);
-                        break;
-                    }
-
-                    if (operationStack.IsEmpty())
-                        operationOutput.AddIntAsCharArr(opResult);
-                    else
-                    {
-                        stack.Push(opResult);
-                        operationStack.Peek()->IncrementArgCount();
-                    }
+                    HandleOperationStack(stack, operationStack, postfixNotation, operationOutput);
 
                     break;
                 }

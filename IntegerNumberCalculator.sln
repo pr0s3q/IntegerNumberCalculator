@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IntegerNumberCalculator", "IntegerNumberCalculator\IntegerNumberCalculator.vcxproj", "{CC58C49F-1D99-48BA-BF74-148DA7E83A24}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalculatorTest", "CalculatorTest\CalculatorTest.csproj", "{1C7ACF39-4B12-4232-8E83-6F6B6D618BB1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -18,5 +20,13 @@ Global
 		{CC58C49F-1D99-48BA-BF74-148DA7E83A24}.Release|Win32.Build.0 = Release|Win32
 		{CC58C49F-1D99-48BA-BF74-148DA7E83A24}.Release|x64.ActiveCfg = Release|x64
 		{CC58C49F-1D99-48BA-BF74-148DA7E83A24}.Release|x64.Build.0 = Release|x64
+		{1C7ACF39-4B12-4232-8E83-6F6B6D618BB1}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{1C7ACF39-4B12-4232-8E83-6F6B6D618BB1}.Debug|Win32.Build.0 = Debug|Any CPU
+		{1C7ACF39-4B12-4232-8E83-6F6B6D618BB1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1C7ACF39-4B12-4232-8E83-6F6B6D618BB1}.Debug|x64.Build.0 = Debug|Any CPU
+		{1C7ACF39-4B12-4232-8E83-6F6B6D618BB1}.Release|Win32.ActiveCfg = Release|Any CPU
+		{1C7ACF39-4B12-4232-8E83-6F6B6D618BB1}.Release|Win32.Build.0 = Release|Any CPU
+		{1C7ACF39-4B12-4232-8E83-6F6B6D618BB1}.Release|x64.ActiveCfg = Release|Any CPU
+		{1C7ACF39-4B12-4232-8E83-6F6B6D618BB1}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

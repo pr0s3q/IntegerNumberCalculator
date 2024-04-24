@@ -4,8 +4,11 @@
 
 // ----------------------------------------------------------------------------
 
-Operation::Operation(const Type type)
-    : m_type(type), m_argCount(0), m_numberOfBrackets(0)
+Operation::Operation(const Type type, const int bracketLevel)
+    : m_type(type)
+    , m_argCount(0)
+    , m_bracketLevel(bracketLevel)
+    , m_numberOfBrackets(0)
 {
 }
 
@@ -49,6 +52,13 @@ Operation::Type Operation::DetermineType(const CustomString* str)
 int Operation::GetArgCount() const
 {
     return m_argCount;
+}
+
+// ----------------------------------------------------------------------------
+
+int Operation::GetBracketLevel() const
+{
+    return m_bracketLevel;
 }
 
 // ----------------------------------------------------------------------------

@@ -38,7 +38,7 @@ struct Operation
 
     // ----------------------------------------------------------------------------
 
-    explicit Operation(Type type);
+    explicit Operation(Type type, int bracketLevel);
 
     // ----------------------------------------------------------------------------
 
@@ -67,6 +67,10 @@ struct Operation
     /// Get number of operation arguments
     /// </summary>
     int GetArgCount() const;
+
+    // ----------------------------------------------------------------------------
+
+    int GetBracketLevel() const;
 
     // ----------------------------------------------------------------------------
 
@@ -111,6 +115,7 @@ private:
 
     Type m_type;
     int m_argCount;
+    int m_bracketLevel;
     int m_numberOfBrackets;
 
     // ----------------------------------------------------------------------------
