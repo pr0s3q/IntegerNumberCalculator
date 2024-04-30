@@ -38,7 +38,7 @@ struct Operation
 
     // ----------------------------------------------------------------------------
 
-    explicit Operation(Type type, int bracketLevel);
+    explicit Operation(Type type);
 
     // ----------------------------------------------------------------------------
 
@@ -57,6 +57,25 @@ struct Operation
     // ----------------------------------------------------------------------------
 
     /// <summary>
+    /// Check, which operation have bigger priority
+    /// </summary>
+    /// <returns>
+    /// - 1, if first have bigger priority.
+    /// - 0, if priority is the same
+    /// - -1, if second have bigger priority
+    /// </returns>
+    static int BiggerPriority(Type firstType, Type secondType);
+
+    // ----------------------------------------------------------------------------
+
+    /// <summary>
+    /// Decrement number of arguments in operation
+    /// </summary>
+    void DecrementArgCount();
+
+    // ----------------------------------------------------------------------------
+
+    /// <summary>
     /// Determine operation type, based on string input
     /// </summary>
     static Type DetermineType(const CustomString* str);
@@ -67,10 +86,6 @@ struct Operation
     /// Get number of operation arguments
     /// </summary>
     int GetArgCount() const;
-
-    // ----------------------------------------------------------------------------
-
-    int GetBracketLevel() const;
 
     // ----------------------------------------------------------------------------
 
@@ -95,6 +110,20 @@ struct Operation
     void IncrementArgCount();
 
     // ----------------------------------------------------------------------------
+
+    /// <summary>
+    /// Check, if operation is of math type (+, -, /, *)
+    /// </summary>
+    static bool IsOfMathType(Type type);
+
+    // ----------------------------------------------------------------------------
+
+    /// <summary>
+    /// Check, if operation is of no bracket type (+, -, /, *, N)
+    /// </summary>
+    static bool IsOfNoBracketType(Type type);
+
+    // ----------------------------------------------------------------------------
     /// <summary>
     /// Decrement number of bracket in operation
     /// </summary>
@@ -113,9 +142,15 @@ private:
 
     // ----------------------------------------------------------------------------
 
+    /// <summary>
+    ///
+    /// </summary>
+    static int GetOperationTypePriority(Type type);
+
+    // ----------------------------------------------------------------------------
+
     Type m_type;
     int m_argCount;
-    int m_bracketLevel;
     int m_numberOfBrackets;
 
     // ----------------------------------------------------------------------------

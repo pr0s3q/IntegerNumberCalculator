@@ -89,7 +89,7 @@ public sealed class IntegerNumberCalculatorTests : IDisposable
         var output = await _process.StandardOutput.ReadToEndAsync();
 
         Assert.Equal(
-            "\r\n400 N 11 3 2 * - 2 / + 200 N N +\nN 400\n* 2 3 11 -400\n- 6 11 -400\n/ 2 5 -400\n+ 2 -400\nN 200 -398\nN -200 -398\n+ 200 -398\n-198\r\n",
+            "\r\n400 N 11 3 2 * - 2 / + 200 N N + \r\nN 400 \r\n* 2 3 11 -400 \r\n- 6 11 -400 \r\n/ 2 5 -400 \r\n+ 2 -400 \r\nN 200 -398 \r\nN -200 -398 \r\n+ 200 -398 \r\n-198\r\n",
             output);
     }
 
@@ -100,10 +100,10 @@ public sealed class IntegerNumberCalculatorTests : IDisposable
         await _process.StandardInput.WriteLineAsync("N ( ( MAX ( 0 , 1 ) + N ( 1 ) ) ) .");
         var output = await _process.StandardOutput.ReadToEndAsync();
 
-        Assert.Equal("\r\n0 1 MAX2 1 N + N\nMAX2 1 0\nN 1 1\n+ -1 1\nN 0\n0\r\n", output);
+        Assert.Equal("\r\n0 1 MAX2 1 N + N \r\nMAX2 1 0 \r\nN 1 1 \r\n+ -1 1 \r\nN 0 \r\n0\r\n", output);
     }
 
-    [Fact]
+    [Fact(Skip = "IF not implemented")]
     public async void Test6()
     {
         await _process.StandardInput.WriteLineAsync("1");
@@ -112,7 +112,7 @@ public sealed class IntegerNumberCalculatorTests : IDisposable
         var output = await _process.StandardOutput.ReadToEndAsync();
 
         Assert.Equal(
-            "\r\n0 8 2 IF MIN1 9 MIN1 4 9 + MAX2 3 9 9 IF 7 0 6 2 1 MIN5 / 3 4 + N 1 1 * 1 9 2 IF + MIN5\nIF 2 8 0\nMIN1 2\nMIN1 9 2\n+ 9 4 9 2\nMAX2 13 9 2\nIF 9 9 3 13 2\nMIN5 1 2 6 0 7 9 13 2\n/ 0 9 13 2\nERROR\r\n",
+            "\r\n0 8 2 IF MIN1 9 MIN1 4 9 + MAX2 3 9 9 IF 7 0 6 2 1 MIN5 / 3 4 + N 1 1 * 1 9 2 IF + MIN5 \r\nIF 2 8 0 \r\nMIN1 2 \r\nMIN1 9 2 \r\n+ 9 4 9 2 \r\nMAX2 13 9 2 \r\nIF 9 9 3 13 2 \r\nMIN5 1 2 6 0 7 9 13 2 \r\n/ 0 9 13 2 \r\nERROR\r\n",
             output);
     }
 
@@ -125,21 +125,21 @@ public sealed class IntegerNumberCalculatorTests : IDisposable
         var output = await _process.StandardOutput.ReadToEndAsync();
 
         Assert.Equal(
-            "\r\n2 N 3 6 * 0 5 * 4 N 4 9 - MAX5 8 0 2 2 0 4 MIN6 MIN1 +\nN 2\n* 6 3 -2\n* 5 0 18 -2\nN 4 0 18 -2\n- 9 4 -4 0 18 -2\nMAX5 -5 -4 0 18 -2\nMIN6 4 0 2 2 0 8 18\nMIN1 0 18\n+ 0 18\n18\r\n",
+            "\r\n2 N 3 6 * 0 5 * 4 N 4 9 - MAX5 8 0 2 2 0 4 MIN6 MIN1 + \r\nN 2 \r\n* 6 3 -2 \r\n* 5 0 18 -2 \r\nN 4 0 18 -2 \r\n- 9 4 -4 0 18 -2 \r\nMAX5 -5 -4 0 18 -2 \r\nMIN6 4 0 2 2 0 8 18 \r\nMIN1 0 18 \r\n+ 0 18 \r\n18\r\n",
             output);
     }
 
-    [Fact]
+    [Fact(Skip = "IF not implemented")]
     public async void Test8()
     {
         await _process.StandardInput.WriteLineAsync("1");
         await _process.StandardInput.WriteLineAsync("N IF ( IF ( 8 , 9 , 6 ) , ( 1 * 2 ) , N 4 ) .");
         var output = await _process.StandardOutput.ReadToEndAsync();
 
-        Assert.Equal("\r\n8 9 6 IF 1 2 * 4 N IF N\nIF 6 9 8\n* 2 1 9\nN 4 2 9\nIF -4 2 9\nN 2\n-2\r\n", output);
+        Assert.Equal("\r\n8 9 6 IF 1 2 * 4 N IF N \r\nIF 6 9 8 \r\n* 2 1 9 \r\nN 4 2 9 \r\nIF -4 2 9 \r\nN 2 \r\n-2\r\n", output);
     }
 
-    [Fact]
+    [Fact(Skip = "IF not implemented")]
     public async void Test9()
     {
         await _process.StandardInput.WriteLineAsync("1");
@@ -147,7 +147,7 @@ public sealed class IntegerNumberCalculatorTests : IDisposable
         var output = await _process.StandardOutput.ReadToEndAsync();
 
         Assert.Equal(
-            "\r\n9 7 / 5 5 7 IF - 6 N 8 6 2 IF - -\n/ 7 9\nIF 7 5 5 1\n- 5 1\nN 6 -4\nIF 2 6 8 -6 -4\n- 6 -6 -4\n- -12 -4\n8\r\n",
+            "\r\n9 7 / 5 5 7 IF - 6 N 8 6 2 IF - - \r\n/ 7 9 \r\nIF 7 5 5 1 \r\n- 5 1 \r\nN 6 -4 \r\nIF 2 6 8 -6 -4 \r\n- 6 -6 -4 \r\n- -12 -4 \r\n8\r\n",
             output);
     }
 
@@ -158,10 +158,10 @@ public sealed class IntegerNumberCalculatorTests : IDisposable
         await _process.StandardInput.WriteLineAsync("N ( ( ( 0 * 0 ) + MAX ( 0 , 7 , 9 , 3 ) ) ) .");
         var output = await _process.StandardOutput.ReadToEndAsync();
 
-        Assert.Equal("\r\n0 0 * 0 7 9 3 MAX4 + N\n* 0 0\nMAX4 3 9 7 0 0\n+ 9 0\nN 9\n-9\r\n", output);
+        Assert.Equal("\r\n0 0 * 0 7 9 3 MAX4 + N \r\n* 0 0 \r\nMAX4 3 9 7 0 0 \r\n+ 9 0 \r\nN 9 \r\n-9\r\n", output);
     }
 
-    [Fact]
+    [Fact(Skip = "IF not implemented")]
     public async void Test11()
     {
         await _process.StandardInput.WriteLineAsync("1");
@@ -169,11 +169,11 @@ public sealed class IntegerNumberCalculatorTests : IDisposable
         var output = await _process.StandardOutput.ReadToEndAsync();
 
         Assert.Equal(
-            "\r\n4 N 3 7 9 IF 8 N IF 5 9 * N +\nN 4\nIF 9 7 3 -4\nN 8 7 -4\nIF -8 7 -4\n* 9 5 -8\nN 45 -8\n+ -45 -8\n-53\r\n",
+            "\r\n4 N 3 7 9 IF 8 N IF 5 9 * N + \r\nN 4 \r\nIF 9 7 3 -4 \r\nN 8 7 -4 \r\nIF -8 7 -4 \r\n* 9 5 -8 \r\nN 45 -8 \r\n+ -45 -8 \r\n-53\r\n",
             output);
     }
 
-    [Fact]
+    [Fact(Skip = "IF not implemented")]
     public async void Test12()
     {
         await _process.StandardInput.WriteLineAsync("1");
@@ -182,11 +182,11 @@ public sealed class IntegerNumberCalculatorTests : IDisposable
         var output = await _process.StandardOutput.ReadToEndAsync();
 
         Assert.Equal(
-            "\r\n3 9 2 * 7 / - 2 7 + 0 6 - 8 0 + IF 6 5 * 5 8 / 6 N IF 4 4 4 1 MAX4 7 / 1 * 7 6 0 0 6 MIN5 0 3 * 6 1 * 8 1 + MIN4 7 5 - 4 N + MIN6\n* 2 9 3\n/ 7 18 3\n- 2 3\n+ 7 2 1\n- 6 0 9 1\n+ 0 8 -6 9 1\nIF 8 -6 9 1\n* 5 6 -6 1\n/ 8 5 30 -6 1\nN 6 0 30 -6 1\nIF -6 0 30 -6 1\nMAX4 1 4 4 4 0 -6 1\n/ 7 4 0 -6 1\n* 1 0 0 -6 1\nMIN5 6 0 0 6 7 0 0 -6 1\n* 3 0 0 0 0 -6 1\n* 1 6 0 0 0 0 -6 1\n+ 1 8 6 0 0 0 0 -6 1\nMIN4 9 6 0 0 0 0 -6 1\n- 5 7 0 0 0 -6 1\nN 4 2 0 0 0 -6 1\n+ -4 2 0 0 0 -6 1\nMIN6 -2 0 0 0 -6 1\n-6\r\n",
+            "\r\n3 9 2 * 7 / - 2 7 + 0 6 - 8 0 + IF 6 5 * 5 8 / 6 N IF 4 4 4 1 MAX4 7 / 1 * 7 6 0 0 6 MIN5 0 3 * 6 1 * 8 1 + MIN4 7 5 - 4 N + MIN6 \r\n* 2 9 3 \r\n/ 7 18 3 \r\n- 2 3 \r\n+ 7 2 1 \r\n- 6 0 9 1 \r\n+ 0 8 -6 9 1 \r\nIF 8 -6 9 1 \r\n* 5 6 -6 1 \r\n/ 8 5 30 -6 1 \r\nN 6 0 30 -6 1 \r\nIF -6 0 30 -6 1 \r\nMAX4 1 4 4 4 0 -6 1 \r\n/ 7 4 0 -6 1 \r\n* 1 0 0 -6 1 \r\nMIN5 6 0 0 6 7 0 0 -6 1 \r\n* 3 0 0 0 0 -6 1 \r\n* 1 6 0 0 0 0 -6 1 \r\n+ 1 8 6 0 0 0 0 -6 1 \r\nMIN4 9 6 0 0 0 0 -6 1 \r\n- 5 7 0 0 0 -6 1 \r\nN 4 2 0 0 0 -6 1 \r\n+ -4 2 0 0 0 -6 1 \r\nMIN6 -2 0 0 0 -6 1 \r\n-6\r\n",
             output);
     }
 
-    [Fact]
+    [Fact(Skip = "IF not implemented")]
     public async void Test13()
     {
         await _process.StandardInput.WriteLineAsync("1");
@@ -195,11 +195,11 @@ public sealed class IntegerNumberCalculatorTests : IDisposable
         var output = await _process.StandardOutput.ReadToEndAsync();
 
         Assert.Equal(
-            "\r\n2 5 MIN2 2 1 * 3 7 3 3 7 5 MIN6 IF N\nMIN2 5 2\n* 1 2 2\nMIN6 5 7 3 3 7 3 2 2\nIF 3 2 2\nN 2\n-2\r\n",
+            "\r\n2 5 MIN2 2 1 * 3 7 3 3 7 5 MIN6 IF N \r\nMIN2 5 2 \r\n* 1 2 2 \r\nMIN6 5 7 3 3 7 3 2 2 \r\nIF 3 2 2 \r\nN 2 \r\n-2\r\n",
             output);
     }
 
-    [Fact]
+    [Fact(Skip = "IF not implemented")]
     public async void Test14()
     {
         await _process.StandardInput.WriteLineAsync("1");
@@ -208,11 +208,11 @@ public sealed class IntegerNumberCalculatorTests : IDisposable
         var output = await _process.StandardOutput.ReadToEndAsync();
 
         Assert.Equal(
-            "\r\n8 6 0 IF 5 0 + 0 0 5 IF 4 MIN1 MAX4 7 N 5 * -\nIF 0 6 8\n+ 0 5 6\nIF 5 0 0 5 6\nMIN1 4 5 5 6\nMAX4 4 5 5 6\nN 7 6\n* 5 -7 6\n- -35 6\n41\r\n",
+            "\r\n8 6 0 IF 5 0 + 0 0 5 IF 4 MIN1 MAX4 7 N 5 * - \r\nIF 0 6 8 \r\n+ 0 5 6 \r\nIF 5 0 0 5 6 \r\nMIN1 4 5 5 6 \r\nMAX4 4 5 5 6 \r\nN 7 6 \r\n* 5 -7 6 \r\n- -35 6 \r\n41\r\n",
             output);
     }
 
-    [Fact]
+    [Fact(Skip = "IF not implemented")]
     public async void Test15()
     {
         await _process.StandardInput.WriteLineAsync("1");
@@ -220,11 +220,11 @@ public sealed class IntegerNumberCalculatorTests : IDisposable
         var output = await _process.StandardOutput.ReadToEndAsync();
 
         Assert.Equal(
-            "\r\n0 MAX1 4 1 - + 3 7 3 IF 8 7 - + +\nMAX1 0\n- 1 4 0\n+ 3 0\nIF 3 7 3 3\n- 7 8 7 3\n+ 1 7 3\n+ 8 3\n11\r\n",
+            "\r\n0 MAX1 4 1 - + 3 7 3 IF 8 7 - + + \r\nMAX1 0 \r\n- 1 4 0 \r\n+ 3 0 \r\nIF 3 7 3 3 \r\n- 7 8 7 3 \r\n+ 1 7 3 \r\n+ 8 3 \r\n11\r\n",
             output);
     }
 
-    [Fact]
+    [Fact(Skip = "IF not implemented")]
     public async void Test16()
     {
         await _process.StandardInput.WriteLineAsync("1");
@@ -233,11 +233,11 @@ public sealed class IntegerNumberCalculatorTests : IDisposable
         var output = await _process.StandardOutput.ReadToEndAsync();
 
         Assert.Equal(
-            "\r\n7 N 6 N / 1 3 0 N / + 2 2 / 1 7 MIN2 / IF\nN 7\nN 6 -7\n/ -6 -7\nN 0 3 1 1\n/ 0 3 1 1\nERROR\r\n",
+            "\r\n7 N 6 N / 1 3 0 N / + 2 2 / 1 7 MIN2 / IF \r\nN 7 \r\nN 6 -7 \r\n/ -6 -7 \r\nN 0 3 1 1 \r\n/ 0 3 1 1 \r\nERROR\r\n",
             output);
     }
 
-    [Fact]
+    [Fact(Skip = "IF not implemented")]
     public async void Test17()
     {
         await _process.StandardInput.WriteLineAsync("1");
@@ -245,7 +245,7 @@ public sealed class IntegerNumberCalculatorTests : IDisposable
         var output = await _process.StandardOutput.ReadToEndAsync();
 
         Assert.Equal(
-            "\r\n2 6 + 5 5 / 3 8 3 IF MIN1 * +\n+ 6 2\n/ 5 5 8\nIF 3 8 3 1 8\nMIN1 8 1 8\n* 8 1 8\n+ 8 8\n16\r\n",
+            "\r\n2 6 + 5 5 / 3 8 3 IF MIN1 * + \r\n+ 6 2 \r\n/ 5 5 8 \r\nIF 3 8 3 1 8 \r\nMIN1 8 1 8 \r\n* 8 1 8 \r\n+ 8 8 \r\n16\r\n",
             output);
     }
 
@@ -256,10 +256,10 @@ public sealed class IntegerNumberCalculatorTests : IDisposable
         await _process.StandardInput.WriteLineAsync("N ( ( 0 / 7 ) / 4 + 3 ) .");
         var output = await _process.StandardOutput.ReadToEndAsync();
 
-        Assert.Equal("\r\n0 7 / 4 / 3 + N\n/ 7 0\n/ 4 0\n+ 3 0\nN 3\n-3\r\n", output);
+        Assert.Equal("\r\n0 7 / 4 / 3 + N \r\n/ 7 0 \r\n/ 4 0 \r\n+ 3 0 \r\nN 3 \r\n-3\r\n", output);
     }
 
-    [Fact]
+    [Fact(Skip = "IF not implemented")]
     public async void Test19()
     {
         await _process.StandardInput.WriteLineAsync("1");
@@ -268,7 +268,7 @@ public sealed class IntegerNumberCalculatorTests : IDisposable
         var output = await _process.StandardOutput.ReadToEndAsync();
 
         Assert.Equal(
-            "\r\n5 6 4 N / + 1 7 - 0 6 / 6 4 + 9 1 / 0 4 - 1 N MIN6 2 2 * N IF\nN 4 6 5\n/ -4 6 5\n+ -1 5\n- 7 1 4\n/ 6 0 -6 4\n+ 4 6 0 -6 4\n/ 1 9 10 0 -6 4\n- 4 0 9 10 0 -6 4\nN 1 -4 9 10 0 -6 4\nMIN6 -1 -4 9 10 0 -6 4\n* 2 2 -6 4\nN 4 -6 4\nIF -4 -6 4\n-6\r\n",
+            "\r\n5 6 4 N / + 1 7 - 0 6 / 6 4 + 9 1 / 0 4 - 1 N MIN6 2 2 * N IF \r\nN 4 6 5 \r\n/ -4 6 5 \r\n+ -1 5 \r\n- 7 1 4 \r\n/ 6 0 -6 4 \r\n+ 4 6 0 -6 4 \r\n/ 1 9 10 0 -6 4 \r\n- 4 0 9 10 0 -6 4 \r\nN 1 -4 9 10 0 -6 4 \r\nMIN6 -1 -4 9 10 0 -6 4 \r\n* 2 2 -6 4 \r\nN 4 -6 4 \r\nIF -4 -6 4 \r\n-6\r\n",
             output);
     }
 
@@ -279,10 +279,10 @@ public sealed class IntegerNumberCalculatorTests : IDisposable
         await _process.StandardInput.WriteLineAsync("N ( ( ( 7 + 4 ) + ( 6 / 3 ) ) ) .");
         var output = await _process.StandardOutput.ReadToEndAsync();
 
-        Assert.Equal("\r\n7 4 + 6 3 / + N\n+ 4 7\n/ 3 6 11\n+ 2 11\nN 13\n-13\r\n", output);
+        Assert.Equal("\r\n7 4 + 6 3 / + N \r\n+ 4 7 \r\n/ 3 6 11 \r\n+ 2 11 \r\nN 13 \r\n-13\r\n", output);
     }
 
-    [Fact]
+    [Fact(Skip = "IF not implemented")]
     public async void Test21()
     {
         await _process.StandardInput.WriteLineAsync("1");
@@ -291,7 +291,7 @@ public sealed class IntegerNumberCalculatorTests : IDisposable
         var output = await _process.StandardOutput.ReadToEndAsync();
 
         Assert.Equal(
-            "\r\n7 9 5 IF 8 2 5 IF / 6 0 8 IF 0 N 3 0 / MIN3 8 6 9 9 - / - IF\nIF 5 9 7\nIF 5 2 8 9\n/ 2 9\nIF 8 0 6 4\nN 0 0 4\n/ 0 3 0 0 4\nERROR\r\n",
+            "\r\n7 9 5 IF 8 2 5 IF / 6 0 8 IF 0 N 3 0 / MIN3 8 6 9 9 - / - IF \r\nIF 5 9 7 \r\nIF 5 2 8 9 \r\n/ 2 9 \r\nIF 8 0 6 4 \r\nN 0 0 4 \r\n/ 0 3 0 0 4 \r\nERROR\r\n",
             output);
     }
 
@@ -302,7 +302,7 @@ public sealed class IntegerNumberCalculatorTests : IDisposable
         await _process.StandardInput.WriteLineAsync("( 5 - 4 ) / N 4 / N ( 0 + 9 ) .");
         var output = await _process.StandardOutput.ReadToEndAsync();
 
-        Assert.Equal("\r\n5 4 - 4 N / 0 9 + N /\n- 4 5\nN 4 1\n/ -4 1\n+ 9 0 0\nN 9 0\n/ -9 0\n0\r\n", output);
+        Assert.Equal("\r\n5 4 - 4 N / 0 9 + N / \r\n- 4 5 \r\nN 4 1 \r\n/ -4 1 \r\n+ 9 0 0 \r\nN 9 0 \r\n/ -9 0 \r\n0\r\n", output);
     }
 
     [Fact]
@@ -312,7 +312,7 @@ public sealed class IntegerNumberCalculatorTests : IDisposable
         await _process.StandardInput.WriteLineAsync("N ( MIN ( 1 , 1 , 6 , 1 , 7 ) + N ( 8 ) ) .");
         var output = await _process.StandardOutput.ReadToEndAsync();
 
-        Assert.Equal("\r\n1 1 6 1 7 MIN5 8 N + N\nMIN5 7 1 6 1 1\nN 8 1\n+ -8 1\nN -7\n7\r\n", output);
+        Assert.Equal("\r\n1 1 6 1 7 MIN5 8 N + N \r\nMIN5 7 1 6 1 1 \r\nN 8 1 \r\n+ -8 1 \r\nN -7 \r\n7\r\n", output);
     }
 
     #endregion

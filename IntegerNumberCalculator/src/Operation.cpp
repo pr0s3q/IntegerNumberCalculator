@@ -4,10 +4,9 @@
 
 // ----------------------------------------------------------------------------
 
-Operation::Operation(const Type type, const int bracketLevel)
+Operation::Operation(const Type type)
     : m_type(type)
     , m_argCount(0)
-    , m_bracketLevel(bracketLevel)
     , m_numberOfBrackets(0)
 {
 }
@@ -56,13 +55,6 @@ int Operation::GetArgCount() const
 
 // ----------------------------------------------------------------------------
 
-int Operation::GetBracketLevel() const
-{
-    return m_bracketLevel;
-}
-
-// ----------------------------------------------------------------------------
-
 int Operation::GetNumberOfBrackets() const
 {
     return m_numberOfBrackets;
@@ -84,8 +76,38 @@ void Operation::IncrementArgCount()
 
 // ----------------------------------------------------------------------------
 
+bool Operation::IsOfMathType(Type type)
+{
+    if (type == ADD ||
+        type == SUB ||
+        type == MUL ||
+        type == DIV)
+        return true;
+
+    return false;
+}
+
+// ----------------------------------------------------------------------------
+
+bool Operation::IsOfNoBracketType(const Type type)
+{
+    if (type == ADD ||
+        type == SUB ||
+        type == MUL ||
+        type == DIV ||
+        type == N)
+        return true;
+
+    return false;
+}
+
+// ----------------------------------------------------------------------------
+
 void Operation::RemoveBracket()
 {
+    if (m_numberOfBrackets == 0)
+        return;
+    
     --m_numberOfBrackets;
 }
 
@@ -97,6 +119,29 @@ void Operation::AddToStr(CustomString& str) const
     if (m_type == MIN || m_type == MAX)
         str.AddIntAsCharArr(m_argCount);
     str.Add(' ');
+}
+
+// ----------------------------------------------------------------------------
+
+int Operation::BiggerPriority(const Type firstType, const Type secondType)
+{
+    const int firstTypePriority = GetOperationTypePriority(firstType);
+    const int secondTypePriority = GetOperationTypePriority(secondType);
+
+    if(firstTypePriority > secondTypePriority)
+        return 1;
+
+    if(firstTypePriority < secondTypePriority)
+        return -1;
+
+    return 0;
+}
+
+// ----------------------------------------------------------------------------
+
+void Operation::DecrementArgCount()
+{
+    --m_argCount;
 }
 
 // ----------------------------------------------------------------------------
@@ -132,6 +177,32 @@ void Operation::AddType(CustomString& str) const
         str.Add("N", 1);
         break;
     }
+}
+
+// ----------------------------------------------------------------------------
+
+int Operation::GetOperationTypePriority(const Type type)
+{
+    switch (type) {
+    case NAO:
+    case OB:
+    case CB:
+    case NA:
+        return -1;
+    case ADD:
+    case SUB:
+        return 0;
+    case MUL:
+    case DIV:
+        return 1;
+    case N:
+        return 2;
+    case MIN:
+    case MAX:
+        return 3;
+    }
+
+    return -1;
 }
 
 // ----------------------------------------------------------------------------
