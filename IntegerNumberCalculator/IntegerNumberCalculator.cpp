@@ -118,7 +118,7 @@ int Add(Stack<int>& stack)
 /// </summary>
 int Subtract(Stack<int>& stack)
 {
-    return - stack.Pop() + stack.Pop();
+    return -stack.Pop() + stack.Pop();
 }
 
 // ----------------------------------------------------------------------------
@@ -180,7 +180,7 @@ bool HandleMathOperations(
     CustomString& operationOutput)
 {
     auto handleOperation = [&stack, &operationStack, &postfixNotation, &operationOutput]
-    (int(*func)(Stack<int>&))
+    (int (*func)(Stack<int>&))
     {
         const auto op = PopOpAndAddToStr(stack, operationStack, postfixNotation, operationOutput);
         const int opResult = func(stack);
@@ -188,7 +188,7 @@ bool HandleMathOperations(
         delete op;
     };
 
-    if(operationStack.Peek()->GetNumberOfBrackets() != 0)
+    if (operationStack.Peek()->GetNumberOfBrackets() != 0)
         return false;
 
     const Operation::Type opType = operationStack.Peek()->GetType();
@@ -213,6 +213,7 @@ bool HandleMathOperations(
     case Operation::OB:
     case Operation::CB:
     case Operation::NA:
+    case Operation::IF:
         break;
     }
 
@@ -221,24 +222,57 @@ bool HandleMathOperations(
 
 // ----------------------------------------------------------------------------
 
-void HandleNegation(
+bool HandleNegation(
     Stack<int>& stack,
     Stack<Operation*>& operationStack,
     CustomString& postfixNotation,
     CustomString& operationOutput)
 {
-    if(operationStack.Peek()->GetType() != Operation::N)
-        return;
+    if (operationStack.Peek()->GetType() != Operation::N)
+        return false;
 
     if (operationStack.Peek()->GetArgCount() == 0)
-        return;
+        return false;
 
     const auto op = PopOpAndAddToStr(stack, operationStack, postfixNotation, operationOutput);
     delete op;
     const int opResult = -stack.Pop();
 
     stack.Push(opResult);
-    if(!operationStack.IsEmpty())
+    if (!operationStack.IsEmpty())
+        operationStack.Peek()->IncrementArgCount();
+
+    return true;
+}
+
+// ----------------------------------------------------------------------------
+
+void HandleIf(
+    Stack<int>& stack,
+    Stack<Operation*>& operationStack,
+    CustomString& postfixNotation,
+    CustomString& operationOutput)
+{
+    if (operationStack.Peek()->GetType() != Operation::IF)
+        return;
+
+    if (operationStack.Peek()->GetArgCount() != 3)
+        return;
+
+    const auto op = PopOpAndAddToStr(stack, operationStack, postfixNotation, operationOutput);
+    delete op;
+
+    const int c = stack.Pop();
+    const int b = stack.Pop();
+    const int a = stack.Pop();
+    int opResult;
+    if (a > 0)
+        opResult = b;
+    else
+        opResult = c;
+
+    stack.Push(opResult);
+    if (!operationStack.IsEmpty())
         operationStack.Peek()->IncrementArgCount();
 }
 
@@ -250,9 +284,9 @@ void HandleOperation(
     CustomString& postfixNotation,
     CustomString& operationOutput)
 {
-    if (operationStack.Peek()->GetNumberOfBrackets() != 0)
+    if (operationStack.IsEmpty() || operationStack.Peek()->GetNumberOfBrackets() != 0)
         return;
-    
+
     int opResult = 0;
 
     switch (operationStack.Peek()->GetType())
@@ -285,9 +319,12 @@ void HandleOperation(
     case Operation::N:
         HandleNegation(stack, operationStack, postfixNotation, operationOutput);
         return;
+    case Operation::IF:
+        HandleIf(stack, operationStack, postfixNotation, operationOutput);
+        return;
     }
 
-    stack.Push(opResult);    
+    stack.Push(opResult);
     if (!operationStack.IsEmpty())
         operationStack.Peek()->IncrementArgCount();
 }
@@ -319,16 +356,17 @@ void ReadLineLoop()
             case Operation::MUL:
             case Operation::DIV:
             case Operation::N:
+            case Operation::IF:
                 {
                     while (Operation::IsOfNoBracketType(currentOperation) &&
                         Operation::BiggerPriority(currentOperation, type) != -1)
                     {
-                        if(stack.IsEmpty())
+                        if (stack.IsEmpty())
                             break;
 
                         const int beforeHandlingSize = operationStack.Size();
                         HandleOperation(stack, operationStack, postfixNotation, operationOutput);
-                        if(beforeHandlingSize == operationStack.Size() ||
+                        if (beforeHandlingSize == operationStack.Size() ||
                             operationStack.IsEmpty())
                             break;
 
@@ -348,8 +386,17 @@ void ReadLineLoop()
                     break;
                 }
             case Operation::NA:
-                if (Operation::IsOfNoBracketType(currentOperation))
+                while (Operation::IsOfNoBracketType(currentOperation))
+                {
+                    const int beforeHandlingSize = operationStack.Size();
                     HandleOperation(stack, operationStack, postfixNotation, operationOutput);
+                    if (beforeHandlingSize == operationStack.Size() ||
+                        operationStack.IsEmpty())
+                        break;
+
+                    currentOperation = operationStack.Peek()->GetType();
+                }
+                HandleOperation(stack, operationStack, postfixNotation, operationOutput);
                 break;
             case Operation::CB:
                 {
@@ -358,16 +405,25 @@ void ReadLineLoop()
 
                     if (Operation::IsOfNoBracketType(currentOperation))
                     {
+                        bool bracketDecremented = operationStack.Peek()->GetNumberOfBrackets() > 0;
                         operationStack.Peek()->RemoveBracket();
                         if (operationStack.Peek()->GetNumberOfBrackets() != 0)
                             break;
 
-                        HandleOperation(stack, operationStack, postfixNotation, operationOutput);
+                        while (true)
+                        {
+                            const int beforeHandlingSize = operationStack.Size();
+                            HandleOperation(stack, operationStack, postfixNotation, operationOutput);
+                            if (beforeHandlingSize == operationStack.Size() ||
+                                operationStack.IsEmpty())
+                                break;
+                        }
 
-                        if(operationStack.IsEmpty())
+                        if (operationStack.IsEmpty())
                             break;
-                        
-                        operationStack.Peek()->RemoveBracket();
+
+                        if (!bracketDecremented)
+                            operationStack.Peek()->RemoveBracket();
                         currentOperation = operationStack.Peek()->GetType();
                         break;
                     }
@@ -377,7 +433,7 @@ void ReadLineLoop()
                         break;
 
                     HandleOperation(stack, operationStack, postfixNotation, operationOutput);
-                    if(!operationStack.IsEmpty())
+                    if (!operationStack.IsEmpty())
                         currentOperation = operationStack.Peek()->GetType();
                     else
                         currentOperation = Operation::NAO;
@@ -406,13 +462,10 @@ void ReadLineLoop()
         delete str;
     }
 
-    while(!operationStack.IsEmpty())
-    {
-        if(!HandleMathOperations(stack, operationStack, postfixNotation, operationOutput))
-            HandleNegation(stack, operationStack, postfixNotation, operationOutput);
-    }
+    while (!operationStack.IsEmpty())
+        HandleOperation(stack, operationStack, postfixNotation, operationOutput);
 
-    if(!stack.IsEmpty())
+    if (!stack.IsEmpty())
         operationOutput.AddIntAsCharArr(stack.Pop());
 
     postfixNotation.Print();

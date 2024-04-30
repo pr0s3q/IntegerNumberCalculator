@@ -28,6 +28,7 @@ struct Operation
         DIV,
         // Unary negation
         N,
+        IF,
         // Opening bracket -> (
         OB,
         // Closing bracket -> )

@@ -42,6 +42,8 @@ Operation::Type Operation::DetermineType(const CustomString* str)
         return CB;
     if (str->Equals(",", 1))
         return NA;
+    if (str->Equals("IF", 2))
+        return IF;
 
     return NAO;
 }
@@ -107,7 +109,7 @@ void Operation::RemoveBracket()
 {
     if (m_numberOfBrackets == 0)
         return;
-    
+
     --m_numberOfBrackets;
 }
 
@@ -128,10 +130,10 @@ int Operation::BiggerPriority(const Type firstType, const Type secondType)
     const int firstTypePriority = GetOperationTypePriority(firstType);
     const int secondTypePriority = GetOperationTypePriority(secondType);
 
-    if(firstTypePriority > secondTypePriority)
+    if (firstTypePriority > secondTypePriority)
         return 1;
 
-    if(firstTypePriority < secondTypePriority)
+    if (firstTypePriority < secondTypePriority)
         return -1;
 
     return 0;
@@ -176,6 +178,9 @@ void Operation::AddType(CustomString& str) const
     case N:
         str.Add("N", 1);
         break;
+    case IF:
+        str.Add("IF", 2);
+        break;
     }
 }
 
@@ -183,7 +188,8 @@ void Operation::AddType(CustomString& str) const
 
 int Operation::GetOperationTypePriority(const Type type)
 {
-    switch (type) {
+    switch (type)
+    {
     case NAO:
     case OB:
     case CB:
@@ -195,11 +201,13 @@ int Operation::GetOperationTypePriority(const Type type)
     case MUL:
     case DIV:
         return 1;
-    case N:
+    case IF:
         return 2;
+    case N:
+        return 3;
     case MIN:
     case MAX:
-        return 3;
+        return 4;
     }
 
     return -1;
