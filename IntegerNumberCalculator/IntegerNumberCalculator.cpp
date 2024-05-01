@@ -450,7 +450,9 @@ void ReadLineLoop()
 int main()
 {
     int value;
-    std::cin >> value;
+    if (scanf_s("%d", &value) != 1)
+        return -1;
+
     for (int i = 0; i < value; ++i)
     {
         CustomString::PrintNewLine();

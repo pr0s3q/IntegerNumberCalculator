@@ -98,14 +98,14 @@ bool CustomString::IsEmpty() const
 
 void CustomString::Print() const
 {
-    std::cout << m_internalString;
+    printf("%s", m_internalString);
 }
 
 // ----------------------------------------------------------------------------
 
 void CustomString::PrintNewLine()
 {
-    std::cout << "\n";
+    printf("\n");
 }
 
 // ----------------------------------------------------------------------------
