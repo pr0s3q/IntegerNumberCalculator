@@ -103,7 +103,7 @@ public sealed class IntegerNumberCalculatorTests : IDisposable
         Assert.Equal("\r\n0 1 MAX2 1 N + N \r\nMAX2 1 0 \r\nN 1 1 \r\n+ -1 1 \r\nN 0 \r\n0\r\n", output);
     }
 
-    [Fact(Skip = "ERROR not implemented")]
+    [Fact]
     public async void Test6()
     {
         await _process.StandardInput.WriteLineAsync("1");
@@ -226,7 +226,7 @@ public sealed class IntegerNumberCalculatorTests : IDisposable
             output);
     }
 
-    [Fact(Skip = "ERROR not implemented")]
+    [Fact]
     public async void Test16()
     {
         await _process.StandardInput.WriteLineAsync("1");
@@ -284,7 +284,7 @@ public sealed class IntegerNumberCalculatorTests : IDisposable
         Assert.Equal("\r\n7 4 + 6 3 / + N \r\n+ 4 7 \r\n/ 3 6 11 \r\n+ 2 11 \r\nN 13 \r\n-13\r\n", output);
     }
 
-    [Fact(Skip = "ERROR not implemented")]
+    [Fact]
     public async void Test21()
     {
         await _process.StandardInput.WriteLineAsync("1");

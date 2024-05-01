@@ -78,7 +78,7 @@ void Operation::IncrementArgCount()
 
 // ----------------------------------------------------------------------------
 
-bool Operation::IsOfMathType(Type type)
+bool Operation::IsOfMathType(const Type type)
 {
     if (type == ADD ||
         type == SUB ||
@@ -152,35 +152,35 @@ void Operation::AddType(CustomString& str) const
 {
     switch (m_type)
     {
-    case NAO:
-    case OB:
-    case CB:
-    case NA:
-        break;
-    case MIN:
-        str.Add("MIN", 3);
-        break;
-    case MAX:
-        str.Add("MAX", 3);
-        break;
-    case ADD:
-        str.Add("+", 1);
-        break;
-    case SUB:
-        str.Add("-", 1);
-        break;
-    case MUL:
-        str.Add("*", 1);
-        break;
-    case DIV:
-        str.Add("/", 1);
-        break;
-    case N:
-        str.Add("N", 1);
-        break;
-    case IF:
-        str.Add("IF", 2);
-        break;
+        case NAO:
+        case OB:
+        case CB:
+        case NA:
+            break;
+        case MIN:
+            str.Add("MIN", 3);
+            break;
+        case MAX:
+            str.Add("MAX", 3);
+            break;
+        case ADD:
+            str.Add("+", 1);
+            break;
+        case SUB:
+            str.Add("-", 1);
+            break;
+        case MUL:
+            str.Add("*", 1);
+            break;
+        case DIV:
+            str.Add("/", 1);
+            break;
+        case N:
+            str.Add("N", 1);
+            break;
+        case IF:
+            str.Add("IF", 2);
+            break;
     }
 }
 
@@ -190,24 +190,24 @@ int Operation::GetOperationTypePriority(const Type type)
 {
     switch (type)
     {
-    case NAO:
-    case OB:
-    case CB:
-    case NA:
-        return -1;
-    case ADD:
-    case SUB:
-        return 0;
-    case MUL:
-    case DIV:
-        return 1;
-    case IF:
-        return 2;
-    case N:
-        return 3;
-    case MIN:
-    case MAX:
-        return 4;
+        case NAO:
+        case OB:
+        case CB:
+        case NA:
+            return -1;
+        case ADD:
+        case SUB:
+            return 0;
+        case MUL:
+        case DIV:
+            return 1;
+        case IF:
+            return 2;
+        case N:
+            return 3;
+        case MIN:
+        case MAX:
+            return 4;
     }
 
     return -1;
